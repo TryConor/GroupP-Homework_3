@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import edu.mu.mediaProduct.MediaProduct;
-import edu.mu.mediaProduct.products.CDRecordProduct;
-import edu.mu.mediaProduct.products.Genre;
-import edu.mu.mediaProduct.products.TapeRecordProduct;
-import edu.mu.mediaProduct.products.VinylRecordProduct;
+import edu.mu.products.CDRecordProduct;
+import edu.mu.products.Genre;
+import edu.mu.products.TapeRecordProduct;
+import edu.mu.products.VinylRecordProduct;
 
 public class StockManagerSingleton {
 	
@@ -53,6 +53,11 @@ public class StockManagerSingleton {
 	//gets media products that are below given maxPrice
 	public ArrayList<MediaProduct> getMediaProductBelowPrice(int maxPrice){
 		return null;
+	}
+	
+	//prints given media product list
+	public void printListOfMediaProduct(ArrayList<MediaProduct> productList) {
+		
 	}
 	
 	//gets media products as an ArrayList

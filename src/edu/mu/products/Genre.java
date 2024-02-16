@@ -1,4 +1,4 @@
-package edu.mu.mediaProduct.products;
+package edu.mu.products;
 
 
 public enum Genre {

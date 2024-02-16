@@ -1,5 +1,5 @@
 package edu.mu.mediaProduct;
-import edu.mu.mediaProduct.products.Genre;
+import edu.mu.products.Genre;
 
 public class Main {
 
