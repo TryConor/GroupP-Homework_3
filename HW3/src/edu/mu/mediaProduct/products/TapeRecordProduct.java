@@ -1,5 +1,4 @@
 package edu.mu.mediaProduct.products;
-
 import edu.mu.mediaProduct.MediaProduct;
 
 public class TapeRecordProduct extends MediaProduct {
