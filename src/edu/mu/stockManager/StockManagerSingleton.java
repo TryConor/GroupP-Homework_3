@@ -23,8 +23,62 @@ public class StockManagerSingleton {
 	//reads initial inventory data from CSV file
 	//parses csv file to create media product objects
 	//adds objects to inventory
-	public boolean initializeStock(String fileName) {
-		
+	public boolean initializeStock(String fileName) {	
+		try (Scanner fileReader = new Scanner(new FileInputStream(fileName))) {
+			while(fileReader.hasNextLine()) {
+				String data = fileReader.nextLine();
+					
+				String[] mediaStockValues = data.split(",");
+				if(mediaStockValues.length == 5) {
+					String type = mediaStockValues[0];
+					String title = mediaStockValues[1];
+					double price = Double.parseDouble(mediaStockValues[2]);
+					int year = Integer.parseInt(mediaStockValues[3]);
+					String genreString =mediaStockValues[4];
+					//how should I convert this string to an enum??
+					//switch case? I might change this to a series of if/else if			
+					switch(genreString) {
+						case "ROCK":
+							Genre genre = Genre.ROCK;
+							MediaProduct product = new MediaProduct(title, price, year, Genre.ROCK);
+							break;
+						case "POP":
+							MediaProduct product1 = new MediaProduct(title, price, year, Genre.POP);
+							break;
+						case "JAZZ":
+							MediaProduct product2 = new MediaProduct(title, price, year, Genre.JAZZ);
+							break;
+						case "CLASSICAL":
+							MediaProduct product3 = new MediaProduct(title, price, year, Genre.CLASSICAL);
+							break;
+						case "HIP_HOP":
+							MediaProduct product4 = new MediaProduct(title, price, year, Genre.HIP_HOP);
+							break;
+						case "ELECTRONIC":								
+							MediaProduct product5 = new MediaProduct(title, price, year, Genre.ELECTRONIC);
+							break;
+						case "CHILDREN":
+							MediaProduct product6 = new MediaProduct(title, price, year, Genre.CHILDREN);
+							break;
+						
+						default:
+							
+							break;
+					}
+						
+							
+					
+						
+					}
+					else {
+						System.out.println("Data is not in the correct format, individual data could not be read");
+					}
+				}
+			}
+			catch(IOException e){
+				System.out.println("Error: "+ e);
+			}
+			
 		
 			return true;
 	}
