@@ -37,6 +37,7 @@ public class StockManagerSingleton {
 					Genre genre = Genre.valueOf(mediaStockValues[4]);
 					MediaProduct product = new MediaProduct(title, price, year, genre);
 					//addItem(product);	
+
 					}
 					else {
 						System.out.println("Data is not in the correct format, individual data could not be read");
