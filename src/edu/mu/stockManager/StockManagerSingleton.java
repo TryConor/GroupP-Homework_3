@@ -1,8 +1,12 @@
 package edu.mu.stockManager;
 
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 import edu.mu.mediaProduct.MediaProduct;
@@ -11,66 +15,167 @@ import edu.mu.products.Genre;
 import edu.mu.products.TapeRecordProduct;
 import edu.mu.products.VinylRecordProduct;
 
+
 public class StockManagerSingleton {
-	
-	
+
 	private final String inventoryFilePath = "files/inventory.csv";
-		
-	private StockManagerSingleton() {
-			
+	private List<MediaProduct> inventory = new ArrayList<>();
+	private static StockManagerSingleton instance = null;
+	
+	private StockManagerSingleton() {}
+	    // Method to get the singleton instance
+	    public static StockManagerSingleton getInstance() {
+	        if (instance == null) {
+	            instance = new StockManagerSingleton();
+	        }
+	        return instance;
 	}
 	
 	//reads initial inventory data from CSV file
 	//parses csv file to create media product objects
 	//adds objects to inventory
-	public boolean initializeStock(String fileName) {	
-		try (Scanner fileReader = new Scanner(new FileInputStream(fileName))) {
-			while(fileReader.hasNextLine()) {
-				String data = fileReader.nextLine();
-					
-				String[] mediaStockValues = data.split(",");
-				if(mediaStockValues.length == 5) {
-					String type = mediaStockValues[0];
-					String title = mediaStockValues[1];
-					double price = Double.parseDouble(mediaStockValues[2]);
-					int year = Integer.parseInt(mediaStockValues[3]);
-					Genre genre = Genre.valueOf(mediaStockValues[4]);
-					MediaProduct product = new MediaProduct(title, price, year, genre);
-					//addItem(product);	
+	    public boolean initializeStock(String fileName) {
+	        try (Scanner fileReader = new Scanner(new FileInputStream(fileName))) {
+	            while (fileReader.hasNextLine()) {
+	                String data = fileReader.nextLine();
 
-					}
-					else {
-						System.out.println("Data is not in the correct format, individual data could not be read");
-					}
-				}
-			}
-			catch(IOException e){
-				System.out.println("Error: "+ e);
-			}
-			
-		
-			return true;
-	}
+	                String[] mediaStockValues = data.split(",");
+	                if (mediaStockValues.length == 5) {
+	                    String type = mediaStockValues[0];
+	                    String title = mediaStockValues[1];
+	                    double price = Double.parseDouble(mediaStockValues[2]);
+	                    int year = Integer.parseInt(mediaStockValues[3]);
+	                    String genreString = mediaStockValues[4];
+
+	                    // Validate genreString to prevent null pointer exception
+	                    if (genreString != null) {
+	                        Genre genre = null;
+	                        try {
+	                            genre = Genre.valueOf(genreString);
+	                        } catch (IllegalArgumentException e) {
+	                            System.out.println("Invalid genre: " + genreString);
+	                            continue; // Skip this entry
+	                        }
+
+	                        // Create MediaProduct based on type
+	                        MediaProduct product = null;
+	                        switch (type) {
+	                            case "CD":
+	                                product = new CDRecordProduct(title, price, year, genre);
+	                                break;
+	                            case "Vinyl":
+	                                product = new VinylRecordProduct(title, price, year, genre);
+	                                break;
+	                            case "Tape":
+	                                product = new TapeRecordProduct(title, price, year, genre);
+	                                break;
+	                            default:
+	                                System.out.println("Invalid media type: " + type);
+	                                continue; // Skip this entry
+	                        }
+
+	                        // Add product to inventory
+	                        if (product != null) {
+	                            inventory.add(product);
+	                        }
+	                    } else {
+	                        System.out.println("Genre missing for product: " + title);
+	                    }
+	                } else {
+	                    System.out.println("Data is not in the correct format: " + data);
+	                }
+	            }
+	            return true;
+	        } catch (IOException e) {
+	            System.out.println("Error reading file: " + e.getMessage());
+	            return false;
+	        }
+	    }
+
+	
+	//method to get the inventory
+    public List<MediaProduct> getInventory() {
+        return inventory;
+    }
 	
 	//updates price of given media
-	public boolean updateItemPrice(MediaProduct product, double newPrice) {
-		return true;
-	}
+ // Updates the price of a given media product in the inventory
+    public boolean updateItemPrice(MediaProduct product, double newPrice) {
+    	return true;
+    }
+
+
+
 	
-	//adds new media product to inventory
-	public boolean addItem(MediaProduct product) {
-		return true;
-	}
+	// Adds new media product to inventory and updates the CSV file
+    public boolean addItem(MediaProduct product) {
+        // Check if the product is not null
+        if (product != null) {
+            // Check if a product with the same title already exists in the inventory
+            for (MediaProduct item : inventory) {
+                if (item.getTitle().equals(product.getTitle())) {
+                    // Update the existing product's price and return true
+                    item.setPrice(product.getPrice());
+                    return true;
+                }
+            }
+            
+            // If the product does not exist, add it to the inventory
+            inventory.add(product);
+            
+            // Write the new product to the CSV file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(inventoryFilePath, true))) {
+                // Format the product data
+                String productData = String.format("%s,%s,%.2f,%d,%s%n", product.getType(), product.getTitle(), 
+                        product.getPrice(), product.getYear(), product.getGenre().toString());
+
+                // Write the product data to the CSV file
+                writer.write(productData);
+            } catch (IOException e) {
+                // Handle the IOException
+                e.printStackTrace();
+                return false; // Return false if writing to the file fails
+            }
+
+            // Return true to indicate successful addition
+            return true;
+        } else {
+            // If the product is null, return false to indicate failure
+            return false;
+        }
+    }
+
 	
 	//removes given media product from inventory
-	public boolean removeItem(MediaProduct product) {
-		return true;
-	}
+    public boolean removeItem(MediaProduct product) {
+        // Check if the product is not null
+        if (product != null) {
+            // Iterate through the inventory to find the product
+            Iterator<MediaProduct> iterator = inventory.iterator();
+            while (iterator.hasNext()) {
+                MediaProduct item = iterator.next();
+                // Check if the product matches by comparing using the equals method
+                if (item.equals(product)) {
+                    iterator.remove(); // Remove the product from the inventory
+                    // Save the updated inventory to the CSV file
+                    saveStock();
+                    // Return true to indicate successful removal
+                    return true;
+                }
+            }
+        }
+        // If the product is not found or null, return false
+        return false;
+    }
+
+
 	
 	//saves updated inventory back to csv file
-	public boolean saveStock() {
-		return true;
-	}
+    public boolean saveStock() {
+    	return true;
+        
+    }
+
 	
 	
 	//gets media products that are below given maxPrice
@@ -80,22 +185,41 @@ public class StockManagerSingleton {
 	
 	//prints given media product list
 	public void printListOfMediaProduct(ArrayList<MediaProduct> productList) {
-		
+	    for (MediaProduct mediaProduct : productList) {
+	        System.out.println(mediaProduct);
+	    }
 	}
 	
 	//gets media products as an ArrayList
 	public ArrayList<VinylRecordProduct> getVinylRecordList(ArrayList<MediaProduct> productList){
-		return null;
+	    ArrayList<VinylRecordProduct> vinylRecordProducts = new ArrayList<>();
+	    for (MediaProduct mediaProduct : productList) {
+	        if (mediaProduct instanceof VinylRecordProduct) {
+	            vinylRecordProducts.add((VinylRecordProduct) mediaProduct);
+	        }
+	    }
+	    return vinylRecordProducts;
 	}
 	
 	//filters CD records and returns ArrayList
 	public ArrayList<CDRecordProduct> getCDRecordsList(ArrayList<MediaProduct> productList){
-		return null;
+	    ArrayList<CDRecordProduct> cdRecordProducts = new ArrayList<>();
+	    for (MediaProduct mediaProduct : productList) {
+	        if (mediaProduct instanceof CDRecordProduct) {
+	            cdRecordProducts.add((CDRecordProduct) mediaProduct);
+	        }
+	    }
+	    return cdRecordProducts;
 	}
 	
 	//filters tape records
 	public ArrayList<TapeRecordProduct> getTapeRecordList(ArrayList<MediaProduct> productList){
-		return null;
+	    ArrayList<TapeRecordProduct> tapeRecordProducts = new ArrayList<>();
+	    for (MediaProduct mediaProduct : productList) {
+	        if (mediaProduct instanceof TapeRecordProduct) {
+	            tapeRecordProducts.add((TapeRecordProduct) mediaProduct);
+	        }
+	    }
+	    return tapeRecordProducts;
 	}
-	
 }
