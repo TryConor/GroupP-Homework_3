@@ -14,6 +14,8 @@ public class Main {
     public static void main(String[] args) {
         // Create an instance of StockManagerSingleton
         StockManagerSingleton stockManager = StockManagerSingleton.getInstance();
+        
+        stockManager.initializeStock();
 
         // Create some MediaProduct objects
         MediaProduct productA = new MediaProduct("CD", "Product A", 19.99, 2023, Genre.ROCK);

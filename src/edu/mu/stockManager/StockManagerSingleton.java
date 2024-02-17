@@ -34,8 +34,8 @@ public class StockManagerSingleton {
 	//reads initial inventory data from CSV file
 	//parses csv file to create media product objects
 	//adds objects to inventory
-	    public boolean initializeStock(String fileName) {
-	        try (Scanner fileReader = new Scanner(new FileInputStream(fileName))) {
+	    public boolean initializeStock() {
+	        try (Scanner fileReader = new Scanner(new FileInputStream(inventoryFilePath))) {
 	            while (fileReader.hasNextLine()) {
 	                String data = fileReader.nextLine();
 
