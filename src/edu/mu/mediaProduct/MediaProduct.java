@@ -5,10 +5,10 @@ import edu.mu.products.Genre;
 public class MediaProduct {
 
     private String type;
-    private String title;
-    private double price;
-    private int year; 
-    private Genre genre;
+    protected String title;
+    protected double price;
+    protected int year; 
+    protected Genre genre;
 
     public MediaProduct(String type, String title, double price, int year, Genre genre) {
         this.type = type;
