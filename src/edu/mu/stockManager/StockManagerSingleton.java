@@ -25,7 +25,7 @@ public class StockManagerSingleton {
 	
 	
 	private StockManagerSingleton() {
-		
+		initializeStock();
 	}
 	    // Method to get the singleton instance
 	    public static StockManagerSingleton getInstance() {
@@ -104,7 +104,6 @@ public class StockManagerSingleton {
         return inventory;
     }
 	
-	//updates price of given media
  // Updates the price of a given media product in the inventory
     public boolean updateItemPrice(MediaProduct product, double newPrice) {
         // Check if the product is not null
@@ -116,19 +115,20 @@ public class StockManagerSingleton {
                     // Update the price of the matching product
                     item.setPrice(newPrice);
                     // Write the updated inventory to the CSV file
-                    if (saveStock()) {
-                        return true; // Return true if the update and save operation succeed
-                    } else {
+                    if (!saveStock()) {
                         // Revert the price change if saving fails
                         item.setPrice(product.getPrice());
                         return false; // Return false if saving fails
                     }
+                    // If the loop completes without any issues, return true
+                    return true;
                 }
             }
         }
         // Return false if the product is not found or null
         return false;
     }
+
 
 
 
@@ -212,8 +212,9 @@ public class StockManagerSingleton {
 
 	
 	
-	//gets media products that are below given maxPrice and returns MediaProduct ArrayList
+	//gets media products that are below given maxPrice
 	public ArrayList<MediaProduct> getMediaProductBelowPrice(int maxPrice){
+<<<<<<< Updated upstream
 		//create new ArrayList for products below maxPrice
 		ArrayList<MediaProduct> belowMaxPriceProducts = new ArrayList<MediaProduct>();
 		System.out.println("\nHere are the products that are below $" + maxPrice);
@@ -227,10 +228,37 @@ public class StockManagerSingleton {
 		}
 		else {
 			System.out.println("There are no products below the max price of $" + maxPrice);
-		}
-		return belowMaxPriceProducts;
-	}
+=======
+		System.out.println(inventory);
+		ArrayList<MediaProduct> belowMaxPriceProducts = new ArrayList<MediaProduct>();
 		
+		for(MediaProduct product: inventory) {
+		// Check if the product is not null
+        if (product != null) {
+            // Iterate through the inventory to find the product
+            Iterator<MediaProduct> iterator = inventory.iterator();
+            while (iterator.hasNext()) {
+                MediaProduct item = iterator.next();
+                // Check if the product is below the maxPrice value and add to Array List
+                if (item.getPrice()<maxPrice) {
+                    belowMaxPriceProducts.add(item);
+               
+                    // Return ArrayList of items below maxPrice
+                    return belowMaxPriceProducts;
+                }
+            }
+>>>>>>> Stashed changes
+		}
+	}
+	//if the ArrayList is empty then output a message to say it has no products in it
+	if(belowMaxPriceProducts.size() == 0) {
+		System.out.println("There are no products below the max price of $" + maxPrice);
+		
+	}
+	return belowMaxPriceProducts;
+	}
+	
+
 	//prints given media product list
 	public void printListOfMediaProduct(List<? extends MediaProduct> productList) {
 		for (MediaProduct product : productList) {
@@ -240,36 +268,45 @@ public class StockManagerSingleton {
 
 	
 	//gets media products as an ArrayList
-	public ArrayList<VinylRecordProduct> getVinylRecordList(ArrayList<MediaProduct> productList) {
-		ArrayList<VinylRecordProduct> vinylRecordList = new ArrayList<>();
-		for (MediaProduct product : productList) {
-			if (product instanceof VinylRecordProduct) {
-				vinylRecordList.add((VinylRecordProduct) product);
-			}
-		}
-		return vinylRecordList;
+	public ArrayList<VinylRecordProduct> getVinylRecordList(List<MediaProduct> productList) {
+	    ArrayList<VinylRecordProduct> vinylRecordList = new ArrayList<>();
+	    for (MediaProduct product : productList) {
+	        if (product instanceof VinylRecordProduct && "Vinyl".equals(product.getType())) {
+	            vinylRecordList.add((VinylRecordProduct) product);
+	        }
+	    }
+	    return vinylRecordList;
 	}
+
+
+
 	
 	//filters CD records and returns ArrayList
-	public ArrayList<CDRecordProduct> getCDRecordsList(ArrayList<MediaProduct> productList) {
-		ArrayList<CDRecordProduct> cdRecordList = new ArrayList<>();
-		for (MediaProduct product : productList) {
-			if (product instanceof CDRecordProduct) {
-				cdRecordList.add((CDRecordProduct) product);
-				
-			}
-		}
-		return cdRecordList;
+	public ArrayList<CDRecordProduct> getCDRecordsList(List<MediaProduct> productList) {
+	    ArrayList<CDRecordProduct> cdRecordList = new ArrayList<>();
+	    for (MediaProduct product : productList) {
+	        if (product instanceof CDRecordProduct && "CD".equals(product.getType())) {
+	            cdRecordList.add((CDRecordProduct) product);
+	        }
+	    }
+	    return cdRecordList;
 	}
+
 	
 	//filters tape records
-	public ArrayList<TapeRecordProduct> getTapeRecordList(ArrayList<MediaProduct> productList) {
-		ArrayList<TapeRecordProduct> tapeRecordList = new ArrayList<>();
-		for (MediaProduct product : productList) {
-			if (product instanceof TapeRecordProduct) {
-				tapeRecordList.add((TapeRecordProduct) product);
-			}
-		}
-		return tapeRecordList;
+	public ArrayList<TapeRecordProduct> getTapeRecordList(List<MediaProduct> productList) {
+	    ArrayList<TapeRecordProduct> tapeRecordList = new ArrayList<>();
+	    for (MediaProduct product : productList) {
+	        if (product instanceof TapeRecordProduct && "Tape".equals(product.getType())) {
+	            tapeRecordList.add((TapeRecordProduct) product);
+	        }
+	    }
+	    return tapeRecordList;
 	}
+	
+	public void clearInventory() {
+        inventory.clear();
+    }
+
+
 }
