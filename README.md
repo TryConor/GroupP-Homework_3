@@ -33,6 +33,10 @@ and the creation and calling of three seperate ArrayLists for outputting CDs, Ta
 __MediaProduct: __
 Contains our protected and privated atributes. Contains all getter, setter, and toString methods. 
 
+__Lastly__
+
+Our project can only be compiled on first run, otherwise you have to manually clear the inventory.csv
+
 Conor McLaughlin 
 Mikey Keeny
 Kristyn Morgenthaler 
