@@ -49,7 +49,6 @@ public class StockManagerSingleton {
 	                if (mediaStockValues.length == 5) {
 	                    String type = mediaStockValues[0];
 	                    String title = mediaStockValues[1];
-	                    System.out.println(mediaStockValues[2]);
 	                    double price = Double.parseDouble(mediaStockValues[2]);
 	                    int year = Integer.parseInt(mediaStockValues[3]);
 	                    String genreString = mediaStockValues[4];
