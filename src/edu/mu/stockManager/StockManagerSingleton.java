@@ -101,12 +101,31 @@ public class StockManagerSingleton {
 	//updates price of given media
  // Updates the price of a given media product in the inventory
     public boolean updateItemPrice(MediaProduct product, double newPrice) {
-    	return true;
+        // Check if the product is not null
+        if (product != null) {
+            // Iterate through the inventory to find the product
+            for (MediaProduct item : inventory) {
+                // Check if the product matches by comparing using the equals method
+                if (item.equals(product)) {
+                    // Update the price of the matching product
+                    item.setPrice(newPrice);
+                    // Write the updated inventory to the CSV file
+                    if (saveStock()) {
+                        return true; // Return true if the update and save operation succeed
+                    } else {
+                        // Revert the price change if saving fails
+                        item.setPrice(product.getPrice());
+                        return false; // Return false if saving fails
+                    }
+                }
+            }
+        }
+        // Return false if the product is not found or null
+        return false;
     }
 
 
 
-	
 	// Adds new media product to inventory and updates the CSV file
     public boolean addItem(MediaProduct product) {
         // Check if the product is not null
@@ -172,8 +191,17 @@ public class StockManagerSingleton {
 	
 	//saves updated inventory back to csv file
     public boolean saveStock() {
-    	return true;
-        
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(inventoryFilePath, true))) {
+            for (MediaProduct product : inventory) {
+                String line = String.format("%s,%s,%.2f,%d,%s", product.getType(), product.getTitle(), product.getPrice(), product.getYear(), product.getGenre().toString());
+                writer.write(line);
+                writer.newLine();
+            }
+            return true;
+        } catch (IOException e) {
+            System.out.println("Error writing inventory to CSV file: " + e.getMessage());
+            return false;
+        }
     }
 
 	
@@ -185,41 +213,21 @@ public class StockManagerSingleton {
 	
 	//prints given media product list
 	public void printListOfMediaProduct(ArrayList<MediaProduct> productList) {
-	    for (MediaProduct mediaProduct : productList) {
-	        System.out.println(mediaProduct);
-	    }
+		
 	}
 	
 	//gets media products as an ArrayList
 	public ArrayList<VinylRecordProduct> getVinylRecordList(ArrayList<MediaProduct> productList){
-	    ArrayList<VinylRecordProduct> vinylRecordProducts = new ArrayList<>();
-	    for (MediaProduct mediaProduct : productList) {
-	        if (mediaProduct instanceof VinylRecordProduct) {
-	            vinylRecordProducts.add((VinylRecordProduct) mediaProduct);
-	        }
-	    }
-	    return vinylRecordProducts;
+		return null;
 	}
 	
 	//filters CD records and returns ArrayList
 	public ArrayList<CDRecordProduct> getCDRecordsList(ArrayList<MediaProduct> productList){
-	    ArrayList<CDRecordProduct> cdRecordProducts = new ArrayList<>();
-	    for (MediaProduct mediaProduct : productList) {
-	        if (mediaProduct instanceof CDRecordProduct) {
-	            cdRecordProducts.add((CDRecordProduct) mediaProduct);
-	        }
-	    }
-	    return cdRecordProducts;
+		return null;
 	}
 	
 	//filters tape records
 	public ArrayList<TapeRecordProduct> getTapeRecordList(ArrayList<MediaProduct> productList){
-	    ArrayList<TapeRecordProduct> tapeRecordProducts = new ArrayList<>();
-	    for (MediaProduct mediaProduct : productList) {
-	        if (mediaProduct instanceof TapeRecordProduct) {
-	            tapeRecordProducts.add((TapeRecordProduct) mediaProduct);
-	        }
-	    }
-	    return tapeRecordProducts;
+		return null;
 	}
 }
