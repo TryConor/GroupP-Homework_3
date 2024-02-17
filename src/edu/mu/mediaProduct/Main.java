@@ -2,7 +2,7 @@ package edu.mu.mediaProduct;
 
 import edu.mu.products.CDRecordProduct;
 import edu.mu.products.Genre;
-import edu.mu.products.MediaProduct;
+import edu.mu.mediaProduct.MediaProduct;
 import edu.mu.products.TapeRecordProduct;
 import edu.mu.products.VinylRecordProduct;
 import edu.mu.stockManager.StockManagerSingleton;
@@ -41,6 +41,11 @@ public class Main {
 //        for (MediaProduct product : stockManager.getInventory()) {
 //            System.out.println(product);
 //        }
+        
+        //Test getMediaProductBelowMaxPrice
+        
+        System.out.println(stockManager.getMediaProductBelowPrice(5));
+        
 
         // Test filtering methods
         ArrayList<MediaProduct> productList = new ArrayList<>(stockManager.getInventory());
