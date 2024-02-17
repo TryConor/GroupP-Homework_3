@@ -210,53 +210,25 @@ public class StockManagerSingleton {
         }
     }
 
-	
-	
-	//gets media products that are below given maxPrice
-	public ArrayList<MediaProduct> getMediaProductBelowPrice(int maxPrice){
-<<<<<<< Updated upstream
-		//create new ArrayList for products below maxPrice
-		ArrayList<MediaProduct> belowMaxPriceProducts = new ArrayList<MediaProduct>();
-		System.out.println("\nHere are the products that are below $" + maxPrice);
-		//if inventory isn't empty search for products below max price
-		if(inventory.size() !=0) {
-			for(MediaProduct product: inventory) {
-		        if (product.getPrice()< Double.valueOf(maxPrice)) {    
-		        	belowMaxPriceProducts.add(product);
-		        }
-			}
-		}
-		else {
-			System.out.println("There are no products below the max price of $" + maxPrice);
-=======
-		System.out.println(inventory);
-		ArrayList<MediaProduct> belowMaxPriceProducts = new ArrayList<MediaProduct>();
-		
-		for(MediaProduct product: inventory) {
-		// Check if the product is not null
-        if (product != null) {
-            // Iterate through the inventory to find the product
-            Iterator<MediaProduct> iterator = inventory.iterator();
-            while (iterator.hasNext()) {
-                MediaProduct item = iterator.next();
-                // Check if the product is below the maxPrice value and add to Array List
-                if (item.getPrice()<maxPrice) {
-                    belowMaxPriceProducts.add(item);
-               
-                    // Return ArrayList of items below maxPrice
-                    return belowMaxPriceProducts;
-                }
-            }
->>>>>>> Stashed changes
-		}
-	}
-	//if the ArrayList is empty then output a message to say it has no products in it
-	if(belowMaxPriceProducts.size() == 0) {
-		System.out.println("There are no products below the max price of $" + maxPrice);
-		
-	}
-	return belowMaxPriceProducts;
-	}
+  //gets media products that are below given maxPrice and returns MediaProduct ArrayList
+  	public ArrayList<MediaProduct> getMediaProductBelowPrice(int maxPrice){
+  		//create new ArrayList for products below maxPrice
+  		ArrayList<MediaProduct> belowMaxPriceProducts = new ArrayList<MediaProduct>();
+  		System.out.println("\nHere are the products that are below $" + maxPrice);
+  		
+  		//if inventory isn't empty search for products below max price
+  		if(inventory.size() !=0) {
+  			for(MediaProduct product: inventory) {
+  		        if (product.getPrice()< Double.valueOf(maxPrice)) {    
+  		        	belowMaxPriceProducts.add(product);
+  		        }
+  			}
+  		}
+  		else {
+  			System.out.println("There are no products below the max price of $" + maxPrice);
+  		}
+  		return belowMaxPriceProducts;
+  	}
 	
 
 	//prints given media product list

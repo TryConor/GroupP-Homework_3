@@ -31,21 +31,19 @@ public class Main {
         System.out.println("Add item result 1: " + addItemResult1); // Should be true
         System.out.println("Add item result 2: " + addItemResult2); // Should be true
         System.out.println("Add item result 3: " + addItemResult3); // Should be true
-//
+
         // Test updating the price of Product A
         System.out.println("\nUpdating the price of Product A:");
         boolean updatePriceResult = stockManager.updateItemPrice(productA, 24.99);
         System.out.println("Update price result: " + updatePriceResult); // Should be true
-//
-//        // Test removing Product B from the inventory
+
+        // Test removing Product B from the inventory
         System.out.println("\nRemoving Product B from the inventory:");
         boolean removeItemResult = stockManager.removeItem(productB);
         System.out.println("Remove item result: " + removeItemResult); // Should be true
-//        
         
-<<<<<<< Updated upstream
-        //Test getMediaProductBelowPrice method
-        stockManager.printListOfMediaProduct(stockManager.getMediaProductBelowPrice(25));
+        
+
 
         // Print the updated inventory
         System.out.println("\nUpdated inventory:");
@@ -58,11 +56,11 @@ public class Main {
 
         // Test getVinylRecordList method
         ArrayList<VinylRecordProduct> vinylRecordList = stockManager.getVinylRecordList(inventoryArrayList);
-=======
+
         // Print ArrayList of Vinyl Record Products
         List<MediaProduct> vinylRecordsList = stockManager.getInventory();
         ArrayList<VinylRecordProduct> vinylRecords = stockManager.getVinylRecordList(vinylRecordsList);
->>>>>>> Stashed changes
+
         System.out.println("\nVinyl Record List:");
         stockManager.printListOfMediaProduct(vinylRecords);
 
