@@ -214,16 +214,17 @@ public class StockManagerSingleton {
 	
 	//gets media products that are below given maxPrice and returns MediaProduct ArrayList
 	public ArrayList<MediaProduct> getMediaProductBelowPrice(int maxPrice){
+		//create new ArrayList for products below maxPrice
 		ArrayList<MediaProduct> belowMaxPriceProducts = new ArrayList<MediaProduct>();
-		
+		System.out.println("\nHere are the products that are below $" + maxPrice);
 		//if inventory isn't empty search for products below max price
 		if(inventory.size() !=0) {
 			for(MediaProduct product: inventory) {
 		        if (product.getPrice()< Double.valueOf(maxPrice)) {    
 		        	belowMaxPriceProducts.add(product);
-		                }
-				}
+		        }
 			}
+		}
 		else {
 			System.out.println("There are no products below the max price of $" + maxPrice);
 		}

@@ -40,8 +40,7 @@ public class Main {
 //        System.out.println("Remove item result: " + removeItemResult); // Should be true
         
         //Test getMediaProductBelowPrice method
-        System.out.println("Here is get price below");
-        stockManager.getMediaProductBelowPrice(25);
+        stockManager.printListOfMediaProduct(stockManager.getMediaProductBelowPrice(25));
 
         // Print the updated inventory
         System.out.println("\nUpdated inventory:");
