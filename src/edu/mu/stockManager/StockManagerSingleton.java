@@ -22,7 +22,11 @@ public class StockManagerSingleton {
 	private List<MediaProduct> inventory = new ArrayList<>();
 	private static StockManagerSingleton instance = null;
 	
-	private StockManagerSingleton() {}
+	
+	
+	private StockManagerSingleton() {
+		initializeStock();
+	}
 	    // Method to get the singleton instance
 	    public static StockManagerSingleton getInstance() {
 	        if (instance == null) {
@@ -36,13 +40,16 @@ public class StockManagerSingleton {
 	//adds objects to inventory
 	    public boolean initializeStock() {
 	        try (Scanner fileReader = new Scanner(new FileInputStream(inventoryFilePath))) {
-	            while (fileReader.hasNextLine()) {
+	            
+	        	String dataSkip = fileReader.nextLine();
+	        	while (fileReader.hasNextLine()) {
 	                String data = fileReader.nextLine();
-
+	          
 	                String[] mediaStockValues = data.split(",");
 	                if (mediaStockValues.length == 5) {
 	                    String type = mediaStockValues[0];
 	                    String title = mediaStockValues[1];
+	                    System.out.println(mediaStockValues[2]);
 	                    double price = Double.parseDouble(mediaStockValues[2]);
 	                    int year = Integer.parseInt(mediaStockValues[3]);
 	                    String genreString = mediaStockValues[4];
@@ -208,6 +215,7 @@ public class StockManagerSingleton {
 	
 	//gets media products that are below given maxPrice
 	public ArrayList<MediaProduct> getMediaProductBelowPrice(int maxPrice){
+		System.out.println(inventory);
 		ArrayList<MediaProduct> belowMaxPriceProducts = new ArrayList<MediaProduct>();
 		
 		for(MediaProduct product: inventory) {
