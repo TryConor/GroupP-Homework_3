@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         // Create an instance of StockManagerSingleton
         StockManagerSingleton stockManager = StockManagerSingleton.getInstance();
+        stockManager.initializeStock();
         
         
 
@@ -39,8 +40,8 @@ public class Main {
 //        System.out.println("Remove item result: " + removeItemResult); // Should be true
         
         //Test getMediaProductBelowPrice method
-        
-        stockManager.getMediaProductBelowPrice(20);
+        System.out.println("Here is get price below");
+        stockManager.getMediaProductBelowPrice(25);
 
         // Print the updated inventory
         System.out.println("\nUpdated inventory:");
