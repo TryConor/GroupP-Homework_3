@@ -255,7 +255,7 @@ public class StockManagerSingleton {
 		for (MediaProduct product : productList) {
 			if (product instanceof CDRecordProduct) {
 				cdRecordList.add((CDRecordProduct) product);
-				System.out.println(product.toString());
+				
 			}
 		}
 		return cdRecordList;
