@@ -1,13 +1,13 @@
 package edu.mu.mediaProduct;
 
+import edu.mu.mediaProduct.MediaProduct;
 import edu.mu.products.CDRecordProduct;
 import edu.mu.products.Genre;
-import edu.mu.mediaProduct.MediaProduct;
 import edu.mu.products.TapeRecordProduct;
 import edu.mu.products.VinylRecordProduct;
 import edu.mu.stockManager.StockManagerSingleton;
-
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -47,6 +47,24 @@ public class Main {
         for (MediaProduct product : stockManager.getInventory()) {
             System.out.println(product);
         }
+        // Convert the inventory List to an ArrayList
+        List<MediaProduct> inventoryList = stockManager.getInventory();
+        ArrayList<MediaProduct> inventoryArrayList = new ArrayList<>(inventoryList);
+
+        // Test getVinylRecordList method
+        ArrayList<VinylRecordProduct> vinylRecordList = stockManager.getVinylRecordList(inventoryArrayList);
+        System.out.println("\nVinyl Record List:");
+        stockManager.printListOfMediaProduct(vinylRecordList);
+
+        // Test getCDRecordsList method
+        ArrayList<CDRecordProduct> cdRecordList = stockManager.getCDRecordsList(inventoryArrayList);
+        System.out.println("\nCD Record List:");
+        stockManager.printListOfMediaProduct(cdRecordList);
+
+        // Test getTapeRecordList method
+        ArrayList<TapeRecordProduct> tapeRecordList = stockManager.getTapeRecordList(inventoryArrayList);
+        System.out.println("\nTape Record List:");
+        stockManager.printListOfMediaProduct(tapeRecordList);
 
     }
 }

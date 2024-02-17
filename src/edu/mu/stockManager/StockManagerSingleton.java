@@ -1,5 +1,10 @@
 package edu.mu.stockManager;
 
+import edu.mu.mediaProduct.MediaProduct;
+import edu.mu.products.CDRecordProduct;
+import edu.mu.products.Genre;
+import edu.mu.products.TapeRecordProduct;
+import edu.mu.products.VinylRecordProduct;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -9,11 +14,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
-import edu.mu.mediaProduct.MediaProduct;
-import edu.mu.products.CDRecordProduct;
-import edu.mu.products.Genre;
-import edu.mu.products.TapeRecordProduct;
-import edu.mu.products.VinylRecordProduct;
 
 
 public class StockManagerSingleton {
@@ -242,23 +242,46 @@ public class StockManagerSingleton {
 	return belowMaxPriceProducts;
 	}
 	
+
 	//prints given media product list
-	public void printListOfMediaProduct(ArrayList<MediaProduct> productList) {
-		
+	public void printListOfMediaProduct(List<? extends MediaProduct> productList) {
+		for (MediaProduct product : productList) {
+			System.out.println(product);
+		}
 	}
+
 	
 	//gets media products as an ArrayList
-	public ArrayList<VinylRecordProduct> getVinylRecordList(ArrayList<MediaProduct> productList){
-		return null;
+	public ArrayList<VinylRecordProduct> getVinylRecordList(ArrayList<MediaProduct> productList) {
+		ArrayList<VinylRecordProduct> vinylRecordList = new ArrayList<>();
+		for (MediaProduct product : productList) {
+			if (product instanceof VinylRecordProduct) {
+				vinylRecordList.add((VinylRecordProduct) product);
+			}
+		}
+		return vinylRecordList;
 	}
 	
 	//filters CD records and returns ArrayList
-	public ArrayList<CDRecordProduct> getCDRecordsList(ArrayList<MediaProduct> productList){
-		return null;
+	public ArrayList<CDRecordProduct> getCDRecordsList(ArrayList<MediaProduct> productList) {
+		ArrayList<CDRecordProduct> cdRecordList = new ArrayList<>();
+		for (MediaProduct product : productList) {
+			if (product instanceof CDRecordProduct) {
+				cdRecordList.add((CDRecordProduct) product);
+				System.out.println(product.toString());
+			}
+		}
+		return cdRecordList;
 	}
 	
 	//filters tape records
-	public ArrayList<TapeRecordProduct> getTapeRecordList(ArrayList<MediaProduct> productList){
-		return null;
+	public ArrayList<TapeRecordProduct> getTapeRecordList(ArrayList<MediaProduct> productList) {
+		ArrayList<TapeRecordProduct> tapeRecordList = new ArrayList<>();
+		for (MediaProduct product : productList) {
+			if (product instanceof TapeRecordProduct) {
+				tapeRecordList.add((TapeRecordProduct) product);
+			}
+		}
+		return tapeRecordList;
 	}
 }
